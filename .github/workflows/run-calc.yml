@@ -1,0 +1,49 @@
+name: Run calc.js on Bun, Deno, and Node
+
+on:
+  push:
+    paths:
+      - 'calc.js'
+      - '.github/workflows/run-calc.yml'
+  pull_request:
+    paths:
+      - 'calc.js'
+      - '.github/workflows/run-calc.yml'
+
+jobs:
+  run-calc:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        runtime: [bun, deno, node]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        if: matrix.runtime == 'bun'
+        uses: oven-sh/setup-bun@v1
+
+      - name: Set up Deno
+        if: matrix.runtime == 'deno'
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Set up Node.js
+        if: matrix.runtime == 'node'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run calc.js with Bun
+        if: matrix.runtime == 'bun'
+        run: bun calc.js
+
+      - name: Run calc.js with Deno
+        if: matrix.runtime == 'deno'
+        run: deno run --allow-read calc.js
+
+      - name: Run calc.js with Node.js
+        if: matrix.runtime == 'node'
+        run: node calc.js
