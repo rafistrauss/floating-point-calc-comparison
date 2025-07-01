@@ -2,6 +2,10 @@
 
 This repository demonstrates a bug with Bun where mathematical expressions can yield different results depending on whether the calculation is performed inside a function or directly in the global scope.
 
+Bug reported here: https://github.com/oven-sh/bun/issues/19695
+
+This has now been solved; will archive this repo
+
 ![alt text](image.png)
 
 ## The Problem
